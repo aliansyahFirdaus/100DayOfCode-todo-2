@@ -22,22 +22,22 @@ export default function AddUser(props) {
   const addUserHandler = (e) => {
     e.preventDefault();
 
-    if (
-      inputUsername.current.value.trim().length === 0 ||
-      inputAge.current.value.trim().length === 0
-    ) {
+    let username = inputUsername.current.value;
+    let age = inputAge.current.value;
+
+    if (username.trim().length === 0 || age.trim().length === 0) {
       return setError({
         title: "Invalid Input",
         message: "Masukan username dan umur terlebih dahulu",
       });
     }
-    if (Number(inputAge.current.value) < 1) {
+    if (Number(age) < 1) {
       return setError({
         title: "Invalid Age",
         message: "Masukan umur lebih dari 0",
       });
     }
-    if (!isFinite(Number(inputAge.current.value))) {
+    if (!isFinite(Number(age))) {
       return setError({
         title: "Invalid Age",
         message: "Masukan umur dengan angka",
@@ -46,9 +46,13 @@ export default function AddUser(props) {
 
     props.onSubmitData({
       id: idGenerator(props.currentData),
-      username: inputUsername.current.value,
-      age: inputAge.current.value,
+      username,
+      age,
     });
+
+    //reset logic when using useRef
+    inputUsername.current.value = "";
+    inputAge.current.value = "";
   };
 
   // const inputUsernameHandler = (e) => {
