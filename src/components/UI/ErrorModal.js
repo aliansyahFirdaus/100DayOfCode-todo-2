@@ -11,7 +11,7 @@ export default function ErrorModal(props) {
 
   return (
     <div>
-      <div className={styles.backdrop} />
+      <div className={styles.backdrop} onClick={closeModalAction}/>
       <Card className={styles.modal}>
         <header className={styles.header}>
           <h2>{props.title}</h2>
