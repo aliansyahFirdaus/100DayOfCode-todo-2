@@ -11,6 +11,7 @@ function App() {
   const [users, setUsers] = useState(INITIAL_DATA);
 
   const addNewdata = (newData) => {
+    console.log(newData)
     setUsers((prevData) => [...prevData, newData]);
   };
 

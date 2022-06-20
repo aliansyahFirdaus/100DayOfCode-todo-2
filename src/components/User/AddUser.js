@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 import Button from "../UI/Button";
 import Card from "../UI/Card";
@@ -6,8 +6,11 @@ import ErrorModal from "../UI/ErrorModal";
 import styles from "./AddUser.module.css";
 
 export default function AddUser(props) {
-  const [inputUsername, setInputUsername] = useState("");
-  const [inputAge, setInputAge] = useState("");
+  const inputUsername = useRef();
+  const inputAge = useRef();
+
+  // const [inputUsername, setInputUsername] = useState("");
+  // const [inputAge, setInputAge] = useState("");
   const [error, setError] = useState(false);
 
   const idGenerator = (data) => {
@@ -19,19 +22,22 @@ export default function AddUser(props) {
   const addUserHandler = (e) => {
     e.preventDefault();
 
-    if (inputUsername.trim().length === 0 || inputAge.trim().length === 0) {
+    if (
+      inputUsername.current.value.trim().length === 0 ||
+      inputAge.current.value.trim().length === 0
+    ) {
       return setError({
         title: "Invalid Input",
         message: "Masukan username dan umur terlebih dahulu",
       });
     }
-    if (Number(inputAge) < 1) {
+    if (Number(inputAge.current.value) < 1) {
       return setError({
         title: "Invalid Age",
         message: "Masukan umur lebih dari 0",
       });
     }
-    if (!isFinite(Number(inputAge))) {
+    if (!isFinite(Number(inputAge.current.value))) {
       return setError({
         title: "Invalid Age",
         message: "Masukan umur dengan angka",
@@ -40,21 +46,18 @@ export default function AddUser(props) {
 
     props.onSubmitData({
       id: idGenerator(props.currentData),
-      username: inputUsername,
-      age: inputAge,
+      username: inputUsername.current.value,
+      age: inputAge.current.value,
     });
-
-    setInputAge("");
-    setInputUsername("");
   };
 
-  const inputUsernameHandler = (e) => {
-    setInputUsername(e.target.value);
-  };
+  // const inputUsernameHandler = (e) => {
+  //   setInputUsername(e.target.value);
+  // };
 
-  const inputAgeHandler = (e) => {
-    setInputAge(e.target.value);
-  };
+  // const inputAgeHandler = (e) => {
+  //   setInputAge(e.target.value);
+  // };
 
   return (
     <div>
@@ -72,8 +75,9 @@ export default function AddUser(props) {
             type="text"
             id="username"
             placeholder="username"
-            value={inputUsername}
-            onChange={inputUsernameHandler}
+            ref={inputUsername}
+            // value={inputUsername}
+            // onChange={inputUsernameHandler}
           />
 
           <label htmlFor="age">Age (years)</label>
@@ -81,8 +85,9 @@ export default function AddUser(props) {
             type="number"
             id="age"
             placeholder="age"
-            value={inputAge}
-            onChange={inputAgeHandler}
+            ref={inputAge}
+            // value={inputAge}
+            // onChange={inputAgeHandler}
           />
 
           <Button type="submit">Add User</Button>
