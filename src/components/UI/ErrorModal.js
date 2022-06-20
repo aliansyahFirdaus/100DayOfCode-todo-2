@@ -6,7 +6,7 @@ import styles from "./ErrorModal.module.css";
 
 export default function ErrorModal(props) {
   const closeModalAction = () => {
-    props.action(undefined);
+    props.action(false);
   };
 
   return (

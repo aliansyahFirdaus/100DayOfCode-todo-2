@@ -8,7 +8,7 @@ import styles from "./AddUser.module.css";
 export default function AddUser(props) {
   const [inputUsername, setInputUsername] = useState("");
   const [inputAge, setInputAge] = useState("");
-  const [error, setError] = useState();
+  const [error, setError] = useState(false);
 
   const idGenerator = (data) => {
     const lastIdFromData = Number(data.at(-1).id.slice(1));
